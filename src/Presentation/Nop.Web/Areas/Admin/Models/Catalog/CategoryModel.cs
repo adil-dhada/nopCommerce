@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Web.Framework.Localization;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
@@ -8,6 +10,7 @@ namespace Nop.Web.Areas.Admin.Models.Catalog;
 /// <summary>
 /// Represents a category model
 /// </summary>
+[LocalizedModel("Admin.Catalog.Categories.Fields.")]
 public partial record CategoryModel : BaseNopEntityModel, IAclSupportedModel, IDiscountSupportedModel,
     ILocalizedModel<CategoryLocalizedModel>, IStoreMappingSupportedModel
 {
@@ -39,69 +42,51 @@ public partial record CategoryModel : BaseNopEntityModel, IAclSupportedModel, ID
 
     #region Properties
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.Name")]
     public string Name { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.Description")]
     public string Description { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.CategoryTemplate")]
+    [DisplayName("CategoryTemplate")]
     public int CategoryTemplateId { get; set; }
     public IList<SelectListItem> AvailableCategoryTemplates { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.MetaKeywords")]
     public string MetaKeywords { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.MetaDescription")]
     public string MetaDescription { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.MetaTitle")]
     public string MetaTitle { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.SeName")]
     public string SeName { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.Parent")]
+    [DisplayName("Parent")]
     public int ParentCategoryId { get; set; }
 
     [UIHint("Picture")]
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.Picture")]
+    [DisplayName("Picture")]
     public int PictureId { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.PageSize")]
     public int PageSize { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.AllowCustomersToSelectPageSize")]
     public bool AllowCustomersToSelectPageSize { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.PageSizeOptions")]
     public string PageSizeOptions { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.PriceRangeFiltering")]
     public bool PriceRangeFiltering { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.PriceFrom")]
     public decimal PriceFrom { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.PriceTo")]
     public decimal PriceTo { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.ManuallyPriceRange")]
     public bool ManuallyPriceRange { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.ShowOnHomepage")]
     public bool ShowOnHomepage { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.IncludeInTopMenu")]
     public bool IncludeInTopMenu { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.Published")]
     public bool Published { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.Deleted")]
     public bool Deleted { get; set; }
 
-    [NopResourceDisplayName("Admin.Catalog.Categories.Fields.DisplayOrder")]
     public int DisplayOrder { get; set; }
 
     public IList<CategoryLocalizedModel> Locales { get; set; }
@@ -132,6 +117,7 @@ public partial record CategoryModel : BaseNopEntityModel, IAclSupportedModel, ID
     #endregion
 }
 
+[LocalizedModel("Admin.Catalog.Categories.Fields.")]
 public partial record CategoryLocalizedModel : ILocalizedLocaleModel
 {
     public int LanguageId { get; set; }

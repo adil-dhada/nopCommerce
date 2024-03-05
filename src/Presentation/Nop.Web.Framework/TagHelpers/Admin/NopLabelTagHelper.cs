@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Nop.Core;
 using Nop.Services.Localization;
+using Nop.Web.Framework.Localization;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
 namespace Nop.Web.Framework.TagHelpers.Admin;
@@ -53,8 +56,25 @@ public partial class NopLabelTagHelper : TagHelper
 
         ArgumentNullException.ThrowIfNull(output);
 
+        var modelType = For.ModelExplorer.Container.Model.GetType();
+        var property = modelType.GetProperty(For.Name);
+
+        var localizedAttribute = property?.GetCustomAttributes<LocalizedModelAttribute>().FirstOrDefault() ?? modelType.GetCustomAttributes<LocalizedModelAttribute>().FirstOrDefault();
+
+        string labelText = null;
+        
+        if (localizedAttribute != null)
+        {
+            var resourceName = $"{localizedAttribute.LocalizationPrefix}{property?.GetCustomAttributes<DisplayNameAttribute>().FirstOrDefault()?.DisplayName ?? For.Name}";
+
+            labelText = await _localizationService.GetResourceAsync(resourceName);
+            
+            if (string.IsNullOrEmpty(labelText) || labelText.Equals(resourceName, StringComparison.InvariantCultureIgnoreCase))
+                labelText = null;
+        }
+
         //generate label
-        var tagBuilder = Generator.GenerateLabel(ViewContext, For.ModelExplorer, For.Name, null, new { @class = "col-form-label" });
+        var tagBuilder = Generator.GenerateLabel(ViewContext, For.ModelExplorer, For.Name, labelText, new { @class = "col-form-label" });
         if (tagBuilder != null)
         {
             //create a label wrapper

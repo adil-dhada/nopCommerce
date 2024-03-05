@@ -41,7 +41,6 @@ public partial record BaseNopModel
     [XmlIgnore]
     [JsonIgnore]
     public Dictionary<string, string> CustomProperties { get; set; }
-
+    
     #endregion
-
 }
